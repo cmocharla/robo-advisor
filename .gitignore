@@ -1,4 +1,9 @@
-# Byte-compiled / optimized / DLL files
+#Byte-compiled / optimized / DLL files
+
+
+
+# ignore secret environment variable values in the ".env" file:
+.env
 __pycache__/
 *.py[cod]
 *$py.class
