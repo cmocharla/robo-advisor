@@ -4,6 +4,7 @@ import requests
 import csv
 import os
 import datetime
+import sys
 
 def to_usd(my_price):
     """
@@ -65,18 +66,37 @@ y = os.getenv("ALPHAVANTAGE_API_KEY")
 #request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
 #response = requests.get(request_url)
 #parsed_response = json.loads(response.text)
-#
-while True:
-    try:
-        x = input("PLEASE ENTER A STOCK OR CRYPTO SYMBOL:")
-        request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
-        response = requests.get(request_url)
-        parsed_response = json.loads(response.text)
-        last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"] 
-        break
-    except KeyError:
-     print("STOCK NOT FOUND")
 
+
+#Validation of user input against length and numeric values
+while True:
+        x = input(
+            "PLEASE ENTER A STOCK OR CRYPTO SYMBOL:")
+        if len(x) < 10:
+            pass
+        else:
+            print("Symbol Too Long")
+        if x.isdigit() is False:
+            pass
+        else:
+           print("CONTAINS NUMBER TRY AGAIN")
+        try:
+            request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
+            response = requests.get(request_url)
+            parsed_response = json.loads(response.text)
+            #last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
+            break
+        except KeyError:
+            print("STOCK NOT FOUND")
+  
+
+#breakpoint()
+
+
+#request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
+#response = requests.get(request_url)
+#parsed_response = json.loads(response.text)
+#last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"] 
 #Short Cut for Time Series Daily
 tsd = parsed_response["Time Series (Daily)"]
 
