@@ -4,12 +4,25 @@ import requests
 import csv
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 #TO DO 
 #DATETIME 
 #format to USD
 
 #Accessing API 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo"
+x = "IBM"
+os.getenv("ALPHAVANTAGE_API_KEY")
+
+y = os.getenv("ALPHAVANTAGE_API_KEY")
+
+
+
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
+
+
 
 response = requests.get(request_url)
 #print(type(response))
@@ -42,7 +55,7 @@ for date in dates:
 recent_high = max(high_prices)
 recent_low = min(low_prices)
 
-
+symbol = parsed_response["Meta Data"]['2. Symbol']
 
 #breakpoint()
 
@@ -89,7 +102,7 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
 
 
 print("-------------------------")
-print("SELECTED SYMBOL: XYZ")
+print(f"SELECTED SYMBOL: {symbol}")
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
 print("REQUEST AT: 2018-02-20 02:00pm")
