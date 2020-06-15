@@ -3,35 +3,79 @@ import dotenv
 import requests
 import csv
 import os
+import datetime
+
+def to_usd(my_price):
+    """
+    Converts a numeric value to usd-formatted string, for printing and display purposes.
+    Param: my_price (int or float) like 4000.444444
+    Example: to_usd(4000.444444)
+    Returns: $4,000.44
+    """
+    return f"(${my_price:,.2f})"  #> $12,000.71
+
+t = datetime.datetime.now()
+#import urllib.request #https://stackoverflow.com/questions/1949318/checking-if-a-website-is-up-via-python
 
 from dotenv import load_dotenv
 
 load_dotenv()
-
-#TO DO 
-#DATETIME 
-#format to USD
-
-#Accessing API 
-x = "IBM"
 os.getenv("ALPHAVANTAGE_API_KEY")
 
 y = os.getenv("ALPHAVANTAGE_API_KEY")
 
 
 
-request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
+#while True:
+#    x = input("PLEASE ENTER A STOCK OR CRYPTO SYMBOL:")
+#    if len(x) < 10:
+#        break
+#    else:
+#        print("Symbol Too Long")
+#  
 
 
 
-response = requests.get(request_url)
+
+
+
+
+#TO DO 
+#DATETIME 
+#format to USD
+
+#Accessing API 
+
+
+
+
+#request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
+
+
+
+#response = requests.get(request_url)
 #print(type(response))
 #print(response.status_code)
 #print(response.text)
 
 # Parsing Response Via JSON 
-parsed_response = json.loads(response.text)
-last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"] 
+#parsed_response = json.loads(response.text)
+
+
+#request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
+#response = requests.get(request_url)
+#parsed_response = json.loads(response.text)
+#
+while True:
+    try:
+        x = input("PLEASE ENTER A STOCK OR CRYPTO SYMBOL:")
+        request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
+        response = requests.get(request_url)
+        parsed_response = json.loads(response.text)
+        last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"] 
+        break
+    except KeyError:
+     print("STOCK NOT FOUND")
 
 #Short Cut for Time Series Daily
 tsd = parsed_response["Time Series (Daily)"]
@@ -40,6 +84,7 @@ tsd = parsed_response["Time Series (Daily)"]
 dates = list(tsd.keys())
 latest_day = dates[0]
 latest_closing = tsd[latest_day]["4. close"]
+f_latest_closing = float(latest_closing)
 
 #High And Low Price Lists 
 high_prices = []
@@ -54,7 +99,8 @@ for date in dates:
 
 recent_high = max(high_prices)
 recent_low = min(low_prices)
-
+f_recent_high = recent_high
+f_recent_low = recent_low
 symbol = parsed_response["Meta Data"]['2. Symbol']
 
 #breakpoint()
@@ -87,40 +133,38 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
             })
 
 
-#
-    ##looping 
-    #writer.writerow({
-    #    "timestamp": "TODO",
-    #    "open": "TODO",
-    #    "high": "TODO",
-    #    "low": "TODO",
-    #    "close": "TODO",
-    #    "volume": "TODO"
-    #    })
 
 
+if float(latest_closing) < float(recent_high):
+    advice = "Buy"
+else:
+    advice = "SELL"
+
+
+if float(latest_closing) < float(recent_high):
+    reason = "LAST CLOSING LOWER THAN RECENT HIGH"
+else:
+    reason = "LAST CLOSING HIGHER THAN RECENT HIGH"
 
 
 print("-------------------------")
 print(f"SELECTED SYMBOL: {symbol}")
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 2018-02-20 02:00pm")
+print("REQUEST AT: " + (t.strftime("%Y-%m-%d %I:%M %p")))
 print("-------------------------")
-print(f"LATEST DAY: {last_refreshed}")
-print(f"LATEST CLOSE: {latest_closing}")
-print(f"RECENT HIGH: {recent_high}")
-print(f"RECENT LOW: {recent_low}")
+print(f"LATEST DAY: {latest_day}")
+print(f"LATEST CLOSE: {to_usd(f_latest_closing)}")
+print(f"RECENT HIGH: {to_usd(f_recent_high)}")
+print(f"RECENT LOW: {to_usd(f_recent_low)}")
 print("-------------------------")
-print("RECOMMENDATION: BUY!")
-print("RECOMMENDATION REASON: TODO")
+print(f"RECOMMENDATION: {advice}!")
+print(f"RECOMMENDATION REASON: {reason}")
 print("-------------------------")
 print(f"WRITING DATA TO CSV: {csv_file_path}")
 print("-------------------------")
 print("HAPPY INVESTING!")
 print("-------------------------")
-
-
 
 
 
