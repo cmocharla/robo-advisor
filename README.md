@@ -23,7 +23,7 @@ From within the virtual environment, install the required packages specified in 
 
 pip install -r requirements.txt
 
-## Security Requirements
+### Security Requirements
 
 This program will need an API Key to issue requests to the [AlphaVantage API](https://www.alphavantage.co). But the program's source code should absolutely not include the secret API Key value. Instead, you should set an environment variable called `ALPHAVANTAGE_API_KEY`, and your program should read the API Key from this environment variable at run-time.
 
@@ -38,7 +38,10 @@ Use gitignore to ignore the .env file
 API https://www.alphavantage.co/
 
 
-## Sub Folder
-Create a sub folder
-CSV 
+### Sub Folder
+Verify there is a subfolder titled "Data" where the CSV data files will be written. 
+
+
+## Disclaimer 
+Do not take this program's recomndations. 
 
