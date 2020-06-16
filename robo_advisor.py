@@ -33,7 +33,7 @@ y = os.getenv("ALPHAVANTAGE_API_KEY")
 #Validation of user input against length and numeric values
 while True:
         x = input(
-            "PLEASE ENTER A STOCK OR CRYPTO SYMBOL:")
+            "PLEASE ENTER A STOCK SYMBOL:")
         if len(x) < 10:
             pass
         else:
