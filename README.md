@@ -14,13 +14,13 @@ In order to run this program please
 
 Create and activate a new Anaconda virtual environment:
 
-```sh
+
 conda create -n stocks-env python=3.7 # (first time only)
 conda activate stocks-env
-```
+
 From within the virtual environment, install the required packages specified in the "requirements.txt" file.
 
-```sh
+
 pip install -r requirements.txt
 
 ## Security Requirements
@@ -38,4 +38,7 @@ Use gitignore to ignore the .env file
 API https://www.alphavantage.co/
 
 
+## Sub Folder
+Create a sub folder
+CSV 
 
