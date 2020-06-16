@@ -1,10 +1,14 @@
-import json
+
+#Packages 
+
 import dotenv
+
+import json
 import requests
 import csv
 import os
 import datetime
-import sys
+
 
 def to_usd(my_price):
     """
@@ -19,53 +23,11 @@ t = datetime.datetime.now()
 #import urllib.request #https://stackoverflow.com/questions/1949318/checking-if-a-website-is-up-via-python
 
 from dotenv import load_dotenv
-
+#Accessing API Key
 load_dotenv()
 os.getenv("ALPHAVANTAGE_API_KEY")
 
 y = os.getenv("ALPHAVANTAGE_API_KEY")
-
-
-
-#while True:
-#    x = input("PLEASE ENTER A STOCK OR CRYPTO SYMBOL:")
-#    if len(x) < 10:
-#        break
-#    else:
-#        print("Symbol Too Long")
-#  
-
-
-
-
-
-
-
-#TO DO 
-#DATETIME 
-#format to USD
-
-#Accessing API 
-
-
-
-
-#request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
-
-
-
-#response = requests.get(request_url)
-#print(type(response))
-#print(response.status_code)
-#print(response.text)
-
-# Parsing Response Via JSON 
-#parsed_response = json.loads(response.text)
-
-
-#request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
-#response = requests.get(request_url)
-#parsed_response = json.loads(response.text)
 
 
 #Validation of user input against length and numeric values
@@ -90,13 +52,7 @@ while True:
             print("STOCK NOT FOUND")
   
 
-#breakpoint()
 
-
-#request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={x}&apikey={y}"
-#response = requests.get(request_url)
-#parsed_response = json.loads(response.text)
-#last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"] 
 #Short Cut for Time Series Daily
 tsd = parsed_response["Time Series (Daily)"]
 
@@ -123,12 +79,8 @@ f_recent_high = recent_high
 f_recent_low = recent_low
 symbol = parsed_response["Meta Data"]['2. Symbol']
 
-#breakpoint()
-
 
 # WRITING CSV 
-
-# csv-mgmt/write_teams.py
 
 csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 csv_file_path = os.path.join(os.path.dirname(__file__), "data", "prices.csv")
@@ -137,7 +89,6 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
     writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
     writer.writeheader() # uses fieldnames set above
 
-    #looping 
     for date in dates:
         daily_prices = tsd[date]
 
@@ -154,7 +105,7 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
 
 
 
-
+#Recomendations
 if float(latest_closing) < float(recent_high):
     advice = "Buy"
 else:
