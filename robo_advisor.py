@@ -38,7 +38,7 @@ while True:
             pass
         else:
             print("Symbol Too Long")
-        if x.isdigit() is False:
+        if x.isdigit() is False: #https://www.w3schools.com/python/ref_string_isdigit.asp
             pass
         else:
            print("CONTAINS NUMBER TRY AGAIN")
